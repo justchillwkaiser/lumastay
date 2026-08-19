@@ -108,7 +108,7 @@ git commit -m "feat: guest chrome (topnavbar, drawer, footer)"
 - Consumes: `fallbackProperties` (Plan 1 Task 5), UI primitives (Plan 1 Task 6)
 - Produces: `/` route sections 1–3 (hero, navbar via layout, featured sanctuary)
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/frontpage.test.tsx`:
 ```tsx
@@ -147,9 +147,9 @@ describe("featured sanctuary", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Hero (per mockup measurements): `relative min-h-[100dvh]`, `next/image fill priority` (picsum `lumastay-hero` seed, 1600×900), scrim overlay div, content absolute bottom-left: left gutter `left-[5%]`, stack = display-lg headline 3 lines (`<br>` explicit; line3 `opacity-50`), gap 32px, subcopy `body-md` max-w-[420px] `on-surface-variant`, gap 36px, CTA text-link 14px/600 underline offset-4 with `ArrowDown` phosphor icon, bottom clearance ~10vh. Mobile: display-lg-mobile 40px.
 
@@ -157,14 +157,14 @@ FeaturedSanctuary (per mockup): section container max-w-[1280px] px margins; hea
 
 `page.tsx` (RSC): try/catch DB fetch featured property → fallback; render Hero + FeaturedSanctuary.
 
-- [ ] **Step 4: Run test — PASS + render check**
+- [x] **Step 4: Run test — PASS + render check**
 
 ```bash
 npm test && npm run build
 npm run dev & sleep 5; curl -s http://localhost:3000/ | grep -o "Natural Serenity." ; kill %1
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
