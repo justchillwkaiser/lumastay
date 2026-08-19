@@ -535,13 +535,13 @@ git commit -m "feat: admin availability calendar + maintenance blocks"
 **Interfaces:**
 - Produces: list pages reusing Bookings table/sidebar patterns (spec §11): Properties (4 villas, active toggle only), Guests (list + booking count), Payments (list + status badges, filter), Reviews (approve/hide toggle), Settings (brand info read-only + users list)
 
-- [ ] **Step 1: Write failing tests** — list functions return rows with fallback; review toggle flips `approved`; property toggle flips `isActive`.
+- [x] **Step 1: Write failing tests** — list functions return rows with fallback; review toggle flips `approved`; property toggle flips `isActive`.
 
-- [ ] **Step 2: Run tests — FAIL → implement → PASS**
+- [x] **Step 2: Run tests — FAIL → implement → PASS**
 
 Keep each page ~80 lines: RSC fetch + client table leaf reuse (`BookingsTable` generalized into `DataTable` in this task — refactor Task 8 component to accept column defs; update Task 8 usage accordingly).
 
-- [ ] **Step 3: Verify + Commit**
+- [x] **Step 3: Verify + Commit**
 
 ```bash
 npm run typecheck && npm test && npm run build
