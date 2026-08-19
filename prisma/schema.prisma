@@ -1,0 +1,250 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Better Auth core models (per nextjs-fullstack-setup reference schema).
+// Password hash lives on Account (providerId "credential"), NOT on User.
+// ---------------------------------------------------------------------------
+
+model User {
+  id            String   @id @default(cuid())
+  name          String?
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  role          String   @default("GUEST") // ADMIN | STAFF | GUEST
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+  guest    Guest?
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?   @db.Text
+  refreshToken          String?   @db.Text
+  idToken               String?   @db.Text
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String? // scrypt hash "salt:key" for providerId "credential"
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([providerId, accountId])
+  @@unique([providerId, accountId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+}
+
+// ---------------------------------------------------------------------------
+// LumaStay domain models (spec §6)
+// ---------------------------------------------------------------------------
+
+model Property {
+  id            String   @id @default(cuid())
+  slug          String   @unique // the-pavilion
+  name          String // The Pavilion at Hulu Langat
+  shortName     String // The Pavilion (cards/tables)
+  locationLine  String // Hulu Langat, Selangor, Malaysia
+  description   String   @db.Text
+  nightlyRate   Decimal  @db.Decimal(10, 2) // RM 3,200.00
+  cleaningFee   Decimal  @db.Decimal(10, 2) @default(400)
+  serviceFeePct Decimal  @db.Decimal(5, 2) @default(5.0)
+  taxPct        Decimal  @db.Decimal(5, 2) @default(0)
+  maxGuests     Int      @default(8)
+  bedrooms      Int
+  beds          Int
+  baths         Decimal  @db.Decimal(3, 1) // 4.5
+  areaSqft      Int // 4500
+  architecture  String // Modernist Tropical
+  materials     String // Off-form Concrete, Merbau Timber
+  checkInTime   String   @default("3:00 PM")
+  checkOutTime  String   @default("12:00 PM")
+  amenities     Amenity[]
+  images        PropertyImage[]
+  specs         PropertySpec[]
+  bookings      Booking[]
+  blocks        AvailabilityBlock[]
+  reviews       Review[]
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Amenity {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+  icon       String // phosphor icon key: "waves", "wifi-high", ...
+  label      String // Infinity Pool
+  sortOrder  Int      @default(0)
+}
+
+model PropertyImage {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+  url        String
+  alt        String
+  role       String   @default("gallery") // hero | gallery | card | thumb
+  sortOrder  Int      @default(0)
+}
+
+model PropertySpec {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+  label      String // TOTAL AREA
+  value      String // 4,500 sq ft
+  sortOrder  Int      @default(0)
+}
+
+model Guest {
+  id        String    @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  userId    String?   @unique // linked Better Auth user when claimed
+  user      User?     @relation(fields: [userId], references: [id])
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+
+  @@index([email])
+}
+
+model Booking {
+  id              String         @id @default(cuid())
+  reference       String         @unique // LS-1024
+  propertyId      String
+  property        Property       @relation(fields: [propertyId], references: [id])
+  guestId         String
+  guest           Guest          @relation(fields: [guestId], references: [id])
+  checkIn         DateTime       @db.Date
+  checkOut        DateTime       @db.Date
+  nights          Int
+  adults          Int
+  children        Int            @default(0)
+  status          BookingStatus  @default(PENDING) // PENDING | CONFIRMED | CANCELLED | COMPLETED
+  nightlyRate     Decimal        @db.Decimal(10, 2) // snapshot
+  cleaningFee     Decimal        @db.Decimal(10, 2) // snapshot
+  serviceFee      Decimal        @db.Decimal(10, 2) // snapshot
+  taxAmount       Decimal        @db.Decimal(10, 2) @default(0) // snapshot
+  totalAmount     Decimal        @db.Decimal(10, 2) // snapshot
+  specialRequests String?        @db.Text
+  source          String         @default("Direct Website")
+  payments        Payment[]
+  notes           InternalNote[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([propertyId, checkIn, checkOut])
+  @@index([status])
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model AvailabilityBlock {
+  id         String     @id @default(cuid())
+  propertyId String
+  property   Property   @relation(fields: [propertyId], references: [id])
+  startDate  DateTime   @db.Date
+  endDate    DateTime   @db.Date
+  type       BlockType // BLOCKED (maintenance) | HOLD (sage)
+  label      String? // "Hold: Corp Retreat"
+  createdBy  String?
+  createdAt  DateTime   @default(now())
+
+  @@index([propertyId, startDate, endDate])
+}
+
+enum BlockType {
+  BLOCKED
+  HOLD
+}
+
+model Payment {
+  id         String        @id @default(cuid())
+  bookingId  String
+  booking    Booking       @relation(fields: [bookingId], references: [id])
+  amount     Decimal       @db.Decimal(10, 2)
+  method     String // mock-fpx | bank-transfer | cash | toyyibpay | billplz
+  reference  String? // provider reference
+  status     PaymentStatus @default(PENDING) // PENDING | PAID | FAILED | REFUNDED
+  recordedBy String? // admin user id for manual records
+  paidAt     DateTime?
+  createdAt  DateTime      @default(now())
+
+  @@index([bookingId])
+  @@index([status])
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+  guestName  String // James
+  rating     Decimal  @db.Decimal(2, 1) // 4.9
+  body       String   @db.Text
+  stayDate   String? // September 2024
+  approved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([propertyId, approved])
+}
+
+model InternalNote {
+  id        String   @id @default(cuid())
+  bookingId String
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+  body      String   @db.Text
+  authorId  String
+  createdAt DateTime @default(now())
+}
