@@ -324,7 +324,7 @@ git commit -m "feat: villas index page"
 - Produces: `/villas/[slug]` top half: H1 + meta, 5-image gallery, hosted-by + description, sticky BookingCard (presentational — "RESERVE NOW" links to `/book/dates?property=<slug>`)
 - `getPropertyBySlug(slug): Promise<PropertyCardData | null>` (fallback-safe)
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/property-detail.test.tsx`:
 ```tsx
@@ -356,9 +356,9 @@ describe("property detail", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Page (RSC, `params` Promise awaited): `notFound()` on null; `generateMetadata` per property.
 
@@ -370,9 +370,9 @@ Hosted-by row: headline-sm "Entire villa hosted by LumaStay", meta "8 guests •
 
 BookingCard (sticky `lg:sticky lg:top-24`): Card p-6 — price line (`mono-data` 24px/700 "RM 3,200" + "/ night"); date display boxes (CHECK-IN / CHECK-OUT LabelCaps + "Select date" placeholder — interactive in Plan 3, here static presentational linking to `/book/dates?property=slug`); GUESTS box; primary Button "RESERVE NOW" full-width uppercase tracking → `/book/dates?property=the-pavilion`; centered note "You won't be charged yet".
 
-- [ ] **Step 4: Run test — PASS + render check**
+- [x] **Step 4: Run test — PASS + render check**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
