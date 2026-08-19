@@ -12,9 +12,11 @@ import { AddNoteForm, BookingActions } from "./BookingActions";
 
 export const metadata = { title: "Booking detail — LumaStay Admin" };
 
-function tone(status: string): "confirmed" | "pending" | "cancelled" {
-  if (status === "CONFIRMED" || status === "COMPLETED") return "confirmed";
+function tone(status: string): "confirmed" | "pending" | "cancelled" | "completed" | "failed" {
+  if (status === "COMPLETED") return "completed";
+  if (status === "CONFIRMED") return "confirmed";
   if (status === "PENDING") return "pending";
+  if (status === "FAILED") return "failed";
   return "cancelled";
 }
 

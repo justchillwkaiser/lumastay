@@ -1,4 +1,5 @@
 import { DataTable } from "@/components/admin/DataTable";
+import { EmptyState } from "@/components/admin/EmptyState";
 import { LabelCaps } from "@/components/ui/LabelCaps";
 import { listAdminGuests } from "@/lib/admin-derived";
 
@@ -17,10 +18,15 @@ export default async function AdminGuestsPage() {
         Every guest who has booked or enquired.
       </p>
       <div className="mt-6">
-        <DataTable
-          rows={rows}
-          emptyLabel="No guests yet."
-          columns={[
+        {rows.length === 0 ? (
+          <EmptyState
+            title="No guests yet"
+            description="Guests will appear here once they make a booking through the website."
+          />
+        ) : (
+          <DataTable
+            rows={rows}
+            columns={[
             {
               accessorKey: "name",
               header: () => <LabelCaps as="span">Guest</LabelCaps>,
@@ -45,8 +51,9 @@ export default async function AdminGuestsPage() {
                 <span className="text-mono-data text-on-surface">{getValue<number>()}</span>
               ),
             },
-          ]}
-        />
+            ]}
+          />
+        )}
       </div>
     </div>
   );

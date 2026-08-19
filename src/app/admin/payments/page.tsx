@@ -8,10 +8,11 @@ export const metadata = { title: "Payments — LumaStay Admin" };
 
 const STATUSES = ["", "PENDING", "PAID", "FAILED", "REFUNDED"];
 
-function tone(status: string): "confirmed" | "pending" | "cancelled" {
+function tone(status: string): "confirmed" | "pending" | "cancelled" | "failed" {
   if (status === "PAID") return "confirmed";
   if (status === "PENDING") return "pending";
-  return "cancelled";
+  if (status === "FAILED") return "failed";
+  return "cancelled"; // REFUNDED
 }
 
 // Payments (plan 3 task 11 lite): list + status badges + filter.

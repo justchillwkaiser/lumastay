@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from "react";
 
-type BadgeTone = "confirmed" | "pending" | "cancelled";
+type BadgeTone = "confirmed" | "pending" | "cancelled" | "completed" | "failed";
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   tone?: BadgeTone;
@@ -8,10 +8,14 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 
 // Soft-fill status tones per spec §3.4: confirmed = primary-fixed mint,
 // pending = secondary-fixed grey, cancelled = error-container red.
+// completed = primary-container solid (stay done), failed = tertiary gray
+// (distinct from cancelled red).
 const tones: Record<BadgeTone, string> = {
   confirmed: "bg-primary-fixed text-primary-container",
   pending: "bg-secondary-fixed text-on-surface-variant",
   cancelled: "bg-error-container text-error",
+  completed: "bg-primary-container text-on-primary",
+  failed: "bg-tertiary-container text-on-tertiary-container",
 };
 
 const base =

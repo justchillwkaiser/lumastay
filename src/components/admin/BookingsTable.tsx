@@ -9,20 +9,26 @@ import {
   flexRender,
   rowSelectionFeature,
   columnVisibilityFeature,
+  rowSortingFeature,
   useTable,
 } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/table-core";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { DotsThreeVertical } from "@phosphor-icons/react";
 
 import { Badge } from "@/components/ui/Badge";
 import { LabelCaps } from "@/components/ui/LabelCaps";
 import type { BookingRow } from "@/lib/admin-bookings";
 
-const FEATURES = { rowSelectionFeature, columnVisibilityFeature };
+const FEATURES = { rowSelectionFeature, columnVisibilityFeature, rowSortingFeature };
 
-function statusTone(status: string): "confirmed" | "pending" | "cancelled" {
-  if (status === "CONFIRMED" || status === "COMPLETED") return "confirmed";
+function statusTone(status: string): "confirmed" | "pending" | "cancelled" | "completed" | "failed" {
+  if (status === "COMPLETED") return "completed";
+  if (status === "CONFIRMED") return "confirmed";
   if (status === "PENDING") return "pending";
+  if (status === "FAILED") return "failed";
   return "cancelled";
 }
 
@@ -31,19 +37,35 @@ const columns: ColumnDef<typeof FEATURES, BookingRow>[] = [
   {
     accessorKey: "reference",
     header: () => <LabelCaps as="span">Booking ID</LabelCaps>,
-    cell: ({ getValue }) => (
-      <span className="text-mono-data text-on-surface-variant">
+    cell: ({ getValue, row }) => (
+      <Link
+        href={`/admin/bookings/${row.original.id}`}
+        className="text-mono-data text-on-surface-variant underline-offset-4 transition-colors hover:text-on-surface hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
         {getValue<string>()}
-      </span>
+      </Link>
     ),
   },
   {
     accessorKey: "guestName",
-    header: () => <LabelCaps as="span">Guest</LabelCaps>,
-    cell: ({ getValue }) => (
-      <span className="text-sm font-semibold text-on-surface">
+    enableSorting: true,
+    header: ({ column }) => (
+      <button
+        type="button"
+        onClick={() => column.toggleSorting()}
+        className="flex items-center gap-1 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-surface-variant transition-colors hover:text-on-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        Guest
+        {column.getIsSorted() === "asc" ? " ↑" : column.getIsSorted() === "desc" ? " ↓" : ""}
+      </button>
+    ),
+    cell: ({ getValue, row }) => (
+      <Link
+        href={`/admin/bookings/${row.original.id}`}
+        className="text-sm font-semibold text-on-surface transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
         {getValue<string>()}
-      </span>
+      </Link>
     ),
   },
   {
@@ -62,10 +84,16 @@ const columns: ColumnDef<typeof FEATURES, BookingRow>[] = [
   },
   {
     accessorKey: "amount",
-    header: () => (
-      <LabelCaps as="span" className="block text-right">
+    enableSorting: true,
+    header: ({ column }) => (
+      <button
+        type="button"
+        onClick={() => column.toggleSorting()}
+        className="block w-full text-right text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-surface-variant transition-colors hover:text-on-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
         Amount
-      </LabelCaps>
+        {column.getIsSorted() === "asc" ? " ↑" : column.getIsSorted() === "desc" ? " ↓" : ""}
+      </button>
     ),
     cell: ({ getValue }) => (
       <span className="block text-right text-mono-data text-on-surface">
@@ -75,7 +103,17 @@ const columns: ColumnDef<typeof FEATURES, BookingRow>[] = [
   },
   {
     accessorKey: "status",
-    header: () => <LabelCaps as="span">Status</LabelCaps>,
+    enableSorting: true,
+    header: ({ column }) => (
+      <button
+        type="button"
+        onClick={() => column.toggleSorting()}
+        className="text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-surface-variant transition-colors hover:text-on-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        Status
+        {column.getIsSorted() === "asc" ? " ↑" : column.getIsSorted() === "desc" ? " ↓" : ""}
+      </button>
+    ),
     cell: ({ getValue }) => {
       const status = getValue<string>();
       return <Badge tone={statusTone(status)}>{status}</Badge>;
@@ -83,14 +121,14 @@ const columns: ColumnDef<typeof FEATURES, BookingRow>[] = [
   },
   {
     id: "actions",
-    cell: () => (
-      <button
-        type="button"
-        aria-label="Row actions"
-        className="flex h-8 w-8 items-center justify-center rounded text-on-surface-variant transition-colors hover:bg-surface-container-high focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    cell: ({ row }) => (
+      <Link
+        href={`/admin/bookings/${row.original.id}`}
+        aria-label={`View booking ${row.original.reference}`}
+        className="flex h-8 w-8 items-center justify-center rounded text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         <DotsThreeVertical size={18} strokeWidth={1.5} aria-hidden="true" />
-      </button>
+      </Link>
     ),
   },
 ];
@@ -118,6 +156,37 @@ export function BookingsTable({
   );
 
   const selectedCount = Object.keys(table.state.rowSelection ?? {}).length;
+  const router = useRouter();
+  const [busy, setBusy] = useState(false);
+  const [feedback, setFeedback] = useState<string | null>(null);
+
+  const selectedIds = table
+    .getSelectedRowModel()
+    .rows.map((r) => r.original.id);
+
+  const bulkAction = async (action: "confirm" | "cancel") => {
+    if (selectedIds.length === 0) return;
+    setBusy(true);
+    setFeedback(null);
+    try {
+      const res = await fetch("/api/admin/bookings/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedIds, action }),
+      });
+      if (res.ok) {
+        setFeedback(`${selectedIds.length} booking(s) ${action}ed.`);
+        table.resetRowSelection();
+        router.refresh();
+      } else {
+        setFeedback("Action failed. Please try again.");
+      }
+    } catch {
+      setFeedback("Network error.");
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const from = total === 0 ? 0 : (page - 1) * pageSize + 1;
@@ -138,20 +207,31 @@ export function BookingsTable({
   return (
     <div>
       {/* Bulk toolbar */}
-      <div className="mb-4 flex items-center gap-3">
+      <div className="mb-4 flex flex-wrap items-center gap-3">
         <span className="text-label-caps text-on-surface-variant">
           {selectedCount} selected
         </span>
-        {["Confirm", "Message", "Cancel"].map((action) => (
-          <button
-            key={action}
-            type="button"
-            disabled={selectedCount === 0}
-            className="rounded border border-outline-variant px-3 py-1.5 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-surface transition-colors hover:bg-surface-container-high disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-          >
-            {action}
-          </button>
-        ))}
+        <button
+          type="button"
+          disabled={selectedCount === 0 || busy}
+          onClick={() => bulkAction("confirm")}
+          className="rounded border border-outline-variant px-3 py-1.5 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-surface transition-colors hover:bg-surface-container-high disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          Confirm
+        </button>
+        <button
+          type="button"
+          disabled={selectedCount === 0 || busy}
+          onClick={() => bulkAction("cancel")}
+          className="rounded border border-outline-variant px-3 py-1.5 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-surface transition-colors hover:bg-surface-container-high disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          Cancel
+        </button>
+        {feedback && (
+          <span role="status" className="text-sm text-on-surface-variant">
+            {feedback}
+          </span>
+        )}
       </div>
 
       <div className="overflow-x-auto rounded border border-outline-variant bg-surface-container-lowest">

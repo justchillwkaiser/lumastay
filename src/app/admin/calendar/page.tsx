@@ -58,13 +58,12 @@ export default async function AdminCalendarPage({
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <form method="get">
+          <form method="get" className="flex items-center gap-2">
             <input type="hidden" name="year" value={year} />
             <input type="hidden" name="month" value={month} />
             <select
               name="property"
               defaultValue={propertyId}
-              onChange={undefined}
               aria-label="Property filter"
               className="rounded border border-outline-variant bg-surface-container-lowest px-3 py-2 text-sm text-on-surface outline-none focus:border-outline"
             >
@@ -73,6 +72,12 @@ export default async function AdminCalendarPage({
                 <option key={p.slug} value={p.slug}>{p.shortName}</option>
               ))}
             </select>
+            <button
+              type="submit"
+              className="rounded bg-primary px-3 py-2 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              Apply
+            </button>
           </form>
           <div className="flex rounded border border-outline-variant">
             <span className="bg-tertiary px-3 py-2 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-tertiary">

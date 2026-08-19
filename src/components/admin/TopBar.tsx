@@ -1,4 +1,4 @@
-import { Bell, DotsNine, MagnifyingGlass, Question } from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 
 import { LabelCaps } from "@/components/ui/LabelCaps";
 
@@ -37,7 +37,7 @@ export function TopBar() {
       </nav>
 
       <div className="flex items-center gap-4">
-        <span className="relative hidden md:block">
+        <form action="/admin/bookings" method="get" className="relative hidden md:block">
           <MagnifyingGlass
             size={16}
             strokeWidth={1.5}
@@ -46,21 +46,12 @@ export function TopBar() {
           />
           <input
             type="search"
-            aria-label="Search"
+            name="search"
+            aria-label="Search bookings"
             placeholder="Search bookings…"
             className="w-56 rounded border border-outline-variant bg-surface-container-lowest py-2 pl-9 pr-3 text-sm text-on-surface outline-none placeholder:text-on-surface-variant focus:border-outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           />
-        </span>
-        {[Bell, DotsNine, Question].map((Icon, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={["Notifications", "Apps", "Help"][i]}
-            className="flex h-9 w-9 items-center justify-center rounded border border-outline-variant text-on-surface transition-colors hover:bg-surface-container-high focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-          >
-            <Icon size={16} strokeWidth={1.5} aria-hidden="true" />
-          </button>
-        ))}
+        </form>
         <span
           aria-label="Admin user"
           className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-label-caps font-bold text-on-primary"
