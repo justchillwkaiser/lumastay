@@ -506,19 +506,19 @@ git commit -m "feat: admin booking detail + mutations"
 - Consumes: `getDateStates` (Task 1) per property or aggregate ("All Properties" = union: booked if ANY property booked; blocks shown per property filter)
 - Produces: month grid with booking bars (guest label), hold/blocked states; "Set Maintenance Block" (property + range + label) API; "Export PDF Schedule" = print stylesheet view (phase-1-lite)
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/admin-calendar.test.ts`: `getAdminMonthMatrix(propertyId|"all", year, month)` → weeks array MON-first; cell states merge bookings (with label "Smith Family") + blocks; trailing prev-month days flagged `muted`.
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Page: header "Availability Calendar" + subcopy; controls right: property dropdown (native `<select>` styled Swiss) + Month/Timeline segmented (Timeline stub `aria-disabled` phase 2); month nav `‹ JULY | August 2024 | SEPTEMBER ›`; legend row (4 swatches LabelCaps). Grid: MON–SUN LabelCaps gray band; cells min-h-[96px] 1px dividers; booking bars `bg-primary-container` white text 11px truncate; holds sage; blocked `surface-dim` + centered `Prohibit`; multi-day bars span via range-aware rendering (bar segment per cell with continuation styling). Weekly Utilization card (4 CSS bars W1–W4, computed booked-nights share) + Quick Actions card (2 ghost buttons with wrench/download icons; maintenance opens inline form → POST block).
 
-- [ ] **Step 4: Run test — PASS + build**
+- [x] **Step 4: Run test — PASS + build**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
