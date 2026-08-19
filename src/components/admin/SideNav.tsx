@@ -28,12 +28,21 @@ const NAV = [
 
 // Admin sidebar (plan 3 task 7): 240px, brand block, black "+ Add New
 // Booking", 7 nav items with phosphor icons + active pill, divider,
-// Settings pinned bottom.
+// Settings pinned bottom. Hidden below lg (mobile uses MobileAdminDrawer —
+// the drawer renders <SideNavContent/> inside a slide-in panel).
 export function SideNav() {
+  return (
+    <aside className="hidden w-60 shrink-0 flex-col border-r border-hairline bg-surface lg:flex">
+      <SideNavContent />
+    </aside>
+  );
+}
+
+export function SideNavContent() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden w-60 shrink-0 flex-col border-r border-hairline bg-surface lg:flex">
+    <div className="flex h-full flex-col">
       <div className="px-5 pb-5 pt-6">
         <Link
           href="/admin"
@@ -89,6 +98,6 @@ export function SideNav() {
           Settings
         </Link>
       </div>
-    </aside>
+    </div>
   );
 }

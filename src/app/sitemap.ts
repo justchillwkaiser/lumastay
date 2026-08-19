@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const propertyRoutes: MetadataRoute.Sitemap = fallbackProperties.map((p) => ({
-    url: `${siteUrl}/stays/${p.slug}`,
+    url: `${siteUrl}/villas/${p.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.8,

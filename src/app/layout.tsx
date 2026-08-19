@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   },
   description:
     "Architectural stays in Malaysia. A private collection of concrete-and-timber villas designed for permanence, silence, and light.",
+  openGraph: {
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

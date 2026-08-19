@@ -557,17 +557,17 @@ git commit -m "feat: admin properties/guests/payments/reviews/settings (lite)"
 - Create: `src/app/(auth)/login/page.tsx`, `public/og.png` (script-generated), `scripts/gen-og.ts`, `src/app/icon.svg`, `e2e/admin.spec.ts`
 - Modify: admin responsive (drawer), `src/app/sitemap.ts`, `src/app/robots.ts`
 
-- [ ] **Step 1: Login page** — Swiss card centered: wordmark, Input email/password, primary "Sign In", error inline; `authClient.signIn.email` → redirect `next` param; role-based landing (ADMIN/STAFF → `/admin`, GUEST → `/account`).
+- [x] **Step 1: Login page** — Swiss card centered: wordmark, Input email/password, primary "Sign In", error inline; `authClient.signIn.email` → redirect `next` param; role-based landing (ADMIN/STAFF → `/admin`, GUEST → `/account`).
 
-- [ ] **Step 2: Mobile admin pass** — 390px: hamburger + centered wordmark + avatar topbar; drawer SideNav with ×; Overview mobile per mockup (TODAY'S OVERVIEW eyebrow, REVENUE (MTD) card with +12% trend, BOOKINGS/OCCUPANCY stat cards with progress bar, Upcoming Check-ins rows with overflow buttons, Recent Activity vertical timeline). Verify via Playwright screenshots.
+- [x] **Step 2: Mobile admin pass** — 390px: hamburger + centered wordmark + avatar topbar; drawer SideNav with ×; Overview mobile per mockup (TODAY'S OVERVIEW eyebrow, REVENUE (MTD) card with +12% trend, BOOKINGS/OCCUPANCY stat cards with progress bar, Upcoming Check-ins rows with overflow buttons, Recent Activity vertical timeline). Verify via Playwright screenshots.
 
-- [ ] **Step 3: OG + icons** — `scripts/gen-og.ts` (sharp): 1200×630 `primary` bg + "LUMASTAY" + "ARCHITECTURAL PERMANENCE." white text → `public/og.png`; `icon.svg` simple monogram; reference in root metadata. sitemap.ts: static routes + `/villas/[slug]` from DB (fallback list). robots.ts disallow `/admin`, `/api/`, `/account`.
+- [x] **Step 3: OG + icons** — `scripts/gen-og.ts` (sharp): 1200×630 `primary` bg + "LUMASTAY" + "ARCHITECTURAL PERMANENCE." white text → `public/og.png`; `icon.svg` simple monogram; reference in root metadata. sitemap.ts: static routes + `/villas/[slug]` from DB (fallback list). robots.ts disallow `/admin`, `/api/`, `/account`.
 
-- [ ] **Step 4: E2E admin** — `e2e/admin.spec.ts`: login as seeded admin → overview KPIs visible → bookings table → open BK → record payment → status PAID → calendar shows booking bar. Run: `npx playwright test`.
+- [x] **Step 4: E2E admin** — `e2e/admin.spec.ts`: login as seeded admin → overview KPIs visible → bookings table → open BK → record payment → status PAID → calendar shows booking bar. Run: `npx playwright test`.
 
-- [ ] **Step 5: Deploy prep** — `vercel link` + env vars documented in `.env.example`; build green; `docs/DEPLOY.md` notes (Supabase pooler URL pattern, IPv6 pitfall, seed command). Actual deploy executed with user approval.
+- [x] **Step 5: Deploy prep** — `vercel link` + env vars documented in `.env.example`; build green; `docs/DEPLOY.md` notes (Supabase pooler URL pattern, IPv6 pitfall, seed command). Actual deploy executed with user approval.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A
