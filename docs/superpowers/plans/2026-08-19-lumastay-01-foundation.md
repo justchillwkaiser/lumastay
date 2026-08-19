@@ -381,7 +381,7 @@ git commit -m "feat: better auth + role guards + proxy"
 **Interfaces:**
 - Produces: `fallbackProperties: PropertyCardData[]` and `getPropertyBySlugFallback(slug)` used by guest pages when DB is offline; `prisma/seed.ts` idempotent seed (4 properties, 2 admin users, 20 bookings, blocks, 6 reviews)
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/seed-fallback.test.ts`:
 ```ts
@@ -410,23 +410,23 @@ describe("seed fallback", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
 Run: `npm test`
 Expected: FAIL
 
-- [ ] **Step 3: Implement fallback + seed**
+- [x] **Step 3: Implement fallback + seed**
 
 `src/lib/seed-fallback.ts`: export types `PropertyCardData` (slug, name, shortName, locationLine, nightlyRate string, maxGuests, bedrooms, beds, baths, areaSqft, architecture, materials, description, amenities `{icon,label}[]`, specs `{label,value}[]`, cardImage, heroImage, rating, reviewCount) and data for all 4 villas with copy VERBATIM from spec Section 8 (Pavilion description, amenity labels "Infinity Pool / High-speed Wi-Fi / Chef's Kitchen / Private Parking / Central Air Conditioning / Media Room", specs "TOTAL AREA 4,500 sq ft / ARCHITECTURE Modernist Tropical / MATERIALS Off-form Concrete, Merbau Timber"). Images: `https://picsum.photos/seed/lumastay-<slug>-<n>/1600/1200` placeholders (documented as placeholders pending real photography).
 
 `prisma/seed.ts`: idempotent — deleteMany in FK order (InternalNote → Payment → Review → AvailabilityBlock → Booking → PropertySpec → PropertyImage → Amenity → Property → Guest → Session → Account → Verification → User), then insert: 4 properties (same data as fallback), admin user `admin@lumastay.my` / password `lumastay-admin-2026` (hash via `hashPassword` from `better-auth/crypto`, stored on Account providerId "credential"), staff user, 3 guests, 20 bookings spread across statuses/dates (2 checking in today for the IMPORTANT TODAY card: Ahmad Aiman at The Pavilion, 2 Guests, 3:00 PM), 2 availability blocks (Smith Family BOOKED-equivalent booking Aug 3-4; "Hold: Corp Retreat" HOLD Aug 6-7; one BLOCKED Aug 2), payments matching bookings, 6 approved reviews (James/Sarah verbatim + 4 more), internal note on BK-1042 ("Guest requested extra pillows and a late check-out if possible. Housekeeping notified." by Sarah L.).
 
-- [ ] **Step 4: Run test + typecheck — verify PASS**
+- [x] **Step 4: Run test + typecheck — verify PASS**
 
 Run: `npm test && npm run typecheck`
 Expected: PASS. If DB live: `npx prisma db seed` and confirm row counts via `npx prisma studio` or a quick `pg` script.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add prisma src/lib tests
