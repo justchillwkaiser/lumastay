@@ -69,7 +69,7 @@ export default async function ReviewPage({
     redirect((e as Error).message.replace("REDIRECT:", ""));
   }
 
-  const property = await getPropertyBySlug(params.property!);
+  const property = await getPropertyBySlug(params.property ?? "the-pavilion");
   if (!property) notFound();
 
   const nights = nightsOf(params);
