@@ -151,7 +151,7 @@ git commit -m "feat: export DESIGN.md tokens to tailwind v4 theme"
 
 ---
 
-### Task 3: Prisma 7 schema + config + client
+### Task 3: Prisma 7 schema + config + client ✅
 
 **Files:**
 - Create: `prisma/schema.prisma`, `prisma.config.ts`, `src/lib/db.ts`, `tests/db.test.ts`
@@ -182,7 +182,7 @@ describe("prisma client", () => {
 Run: `npm test`
 Expected: FAIL (module `@/lib/db` not found)
 
-- [ ] **Step 3: Init Prisma 7 + write schema**
+- [x] **Step 3: Init Prisma 7 + write schema**
 
 ```bash
 npx prisma init
@@ -218,7 +218,7 @@ export const db =
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
 ```
 
-- [ ] **Step 4: Generate client + migrate (if DB reachable)**
+- [x] **Step 4: Generate client + migrate (if DB reachable)**
 
 ```bash
 npx prisma generate
@@ -230,12 +230,12 @@ npx prisma migrate deploy
 
 If DB unreachable (no Supabase project yet): generate client only; record `DB PENDING` in commit message; migrations run in Task 6 verification when credentials exist.
 
-- [ ] **Step 5: Run test — verify PASS**
+- [x] **Step 5: Run test — verify PASS**
 
 Run: `npm test && npm run typecheck`
 Expected: PASS
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add prisma src/lib/db.ts src/generated tests
