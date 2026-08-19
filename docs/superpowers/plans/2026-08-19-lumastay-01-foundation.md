@@ -59,7 +59,7 @@ npm install -D @types/pg vitest @vitejs/plugin-react @playwright/test tsx sharp
 
 `.env.example`:
 ```
-DATABASE_URL="postgresql://postgres.<ref>:<password>@aws-0-<region>.pooler.supabase.com:6543/postgres?sslmode=no-verify"
+DATABASE_URL="postgresql://postgres.<ref>:***@aws-0-<region>.pooler.supabase.com:6543/postgres?sslmode=no-verify"
 AUTH_SECRET=""
 BETTER_AUTH_URL="http://localhost:3000"
 PAYMENT_PROVIDER="mock"
@@ -94,9 +94,7 @@ git commit -m "chore: scaffold next.js 16 + tailwind v4 + base deps"
 - Consumes: `designs/DESIGN.md`
 - Produces: CSS custom properties `--color-primary`, `--color-surface`, `--color-on-surface`, `--color-outline-variant`, `--font-display-lg` etc. usable as Tailwind classes (`bg-primary`, `text-on-surface`, `border-outline-variant`)
 
-- [ ] **Step 1: Write failing test**
-
-`tests/tokens.test.ts`:
+- [x] **Step 1: Write failing test** — `tests/tokens.test.ts`:
 ```ts
 import { readFileSync } from "node:fs";
 import { describe, it, expect } from "vitest";
@@ -121,12 +119,12 @@ describe("design tokens", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
 Run: `npm test`
 Expected: FAIL (ENOENT `src/styles/tokens.css`)
 
-- [ ] **Step 3: Export tokens + wire into globals.css**
+- [x] **Step 3: Export tokens + wire into globals.css**
 
 ```bash
 npx -y -p @google/design.md designmd lint designs/DESIGN.md
@@ -139,12 +137,12 @@ Review lint output: fix any WCAG `contrast-ratio` ERRORS by adjusting only `on-*
 
 If the exporter output is missing the typography scale (fontSize tokens), append a manual `@theme` block to `tokens.css` replicating DESIGN.md typography verbatim (display-lg 72px/700/-0.04em, headline-md 32px/600/-0.02em, headline-sm 24px/600/-0.01em, body-lg 18px, body-md 16px, label-caps 12px/700/0.1em, mono-data 14px).
 
-- [ ] **Step 4: Run test — verify PASS**
+- [x] **Step 4: Run test — verify PASS**
 
 Run: `npm test`
 Expected: PASS (3 tests)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/styles src/app/globals.css tests scripts
