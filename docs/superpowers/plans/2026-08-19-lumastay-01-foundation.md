@@ -444,7 +444,7 @@ git commit -m "feat: seed data (4 villas, bookings, reviews) + offline fallback"
 **Interfaces:**
 - Produces: `<Button variant="primary|ghost" >` (primary: bg-primary text-on-primary radius 4px; ghost: 1px outline), `<Badge tone="confirmed|pending|cancelled">`, `<Card>` (1px outline-variant border, no shadow, radius 4px), `<Input label error>` (label above, error below), `<Divider>` (1px #E0E0E0), `<LabelCaps>` (12px/700/uppercase/0.1em)
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/ui-primitives.test.tsx` (vitest + @testing-library/react):
 ```tsx
@@ -476,12 +476,12 @@ describe("ui primitives", () => {
 
 (Install `npm install -D @testing-library/react @testing-library/jest-dom jsdom`; add `vitest.config.ts` with jsdom environment + `@/` alias.)
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
 Run: `npm test`
 Expected: FAIL (components not found)
 
-- [ ] **Step 3: Implement primitives + layout**
+- [x] **Step 3: Implement primitives + layout**
 
 Rules (from spec 3.1–3.4): no shadows anywhere; radius 4px on buttons/inputs, 0–4px cards; 1px `outline-variant` borders; button text AA contrast; Input = label-caps above, 1px boxed frame, error text below in `error` token; Badge = soft fill per tone (confirmed: mint `#d8e6d9` bg + `#2d3930` text; pending: `#e2e3e1` bg + `#434843` text; cancelled: `#ffdad6` bg + `#ba1a1a` text); Button `:active` = `translate-y-[1px]`.
 
@@ -489,12 +489,12 @@ Rules (from spec 3.1–3.4): no shadows anywhere; radius 4px on buttons/inputs, 
 
 `next.config.ts`: `images.remotePatterns` for `picsum.photos` (placeholder photography).
 
-- [ ] **Step 4: Run test — verify PASS**
+- [x] **Step 4: Run test — verify PASS**
 
 Run: `npm test && npm run typecheck && npm run build`
 Expected: all green.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests vitest.config.ts next.config.ts package.json
