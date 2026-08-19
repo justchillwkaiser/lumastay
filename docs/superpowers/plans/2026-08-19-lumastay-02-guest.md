@@ -182,7 +182,7 @@ git commit -m "feat: frontpage hero + featured sanctuary"
 **Interfaces:**
 - Produces: `<VillaCard>` (reused by `/villas` index), remaining frontpage sections
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/frontpage-sections.test.tsx`:
 ```tsx
@@ -229,9 +229,9 @@ describe("press quote", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 VillaCard (per mockup): no container card — flat on `surface-container` section bg; image 4:3 sharp corners; row below: name body-md/600 left + price `mono-data` `on-surface-variant` right; Card (white, 1px border, p-5) below with location (14px/500), Divider, meta row (`Bed` icon + "N Beds", feature icon + label 12px gray). Whole card wrapped in link to `/villas/[slug]`.
 
@@ -243,9 +243,9 @@ PressQuote: full-bleed `bg-primary` (#161F1A appearance — use `inverse-surface
 
 Update `page.tsx` to compose all sections in order.
 
-- [ ] **Step 4: Run test — PASS + render check (grep "Discrete Concierge")**
+- [x] **Step 4: Run test — PASS + render check (grep "Discrete Concierge")**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
