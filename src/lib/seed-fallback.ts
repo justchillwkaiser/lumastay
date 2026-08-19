@@ -7,6 +7,19 @@
 // Images are picsum.photos placeholders, documented as pending real villa
 // photography (spec §8 / plan 1 known deferrals).
 
+// Frontpage hero copy, VERBATIM from spec §8 (brand-swapped to LumaStay).
+// Kept here (not hardcoded in the component) so copy changes stay with data.
+export const heroCopy = {
+  headlineLines: ["Architectural", "Permanence.", "Natural Serenity."],
+  subcopy:
+    "A curated collection of minimalist sanctuaries designed to elevate your connection to the Malaysian landscape.",
+  ctaLabel: "Discover Our Villas",
+  ctaHref: "/villas",
+  image: "https://picsum.photos/seed/lumastay-hero/1600/900",
+  imageAlt:
+    "Minimalist tropical villa pavilion suspended above the Hulu Langat rainforest canopy.",
+} as const;
+
 export interface PropertyAmenity {
   icon: string; // phosphor icon key
   label: string;
