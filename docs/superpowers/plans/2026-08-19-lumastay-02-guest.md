@@ -262,7 +262,7 @@ git commit -m "feat: frontpage collection, experiences, press quote"
 **Interfaces:**
 - Consumes: `VillaCard` (Task 3), service fn `listProperties()` (create in `src/lib/properties.ts` with fallback)
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/villas-index.test.tsx`:
 ```tsx
@@ -278,9 +278,9 @@ describe("listProperties", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `src/lib/properties.ts`:
 ```ts
@@ -304,9 +304,9 @@ export async function listProperties(): Promise<PropertyCardData[]> {
 
 `villas/page.tsx` (RSC): `metadata` title "The Villas"; header block (headline-md "The Villas" + subcopy "A curated collection of minimalist sanctuaries."); 2-col grid (lg) of VillaCard for all 4 properties; generous `py-24`; Divider between header and grid.
 
-- [ ] **Step 4: Run test — PASS + render check (`curl /villas | grep "Horizon Villa"`)**
+- [x] **Step 4: Run test — PASS + render check (`curl /villas | grep "Horizon Villa"`)**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
