@@ -5,8 +5,13 @@ import { MapPin, Star } from "@phosphor-icons/react/dist/ssr";
 
 import { BookingCard } from "@/components/guest/BookingCard";
 import { PropertyGallery } from "@/components/guest/PropertyGallery";
+import { AmenitiesGrid } from "@/components/guest/AmenitiesGrid";
+import { MapCard } from "@/components/guest/MapCard";
+import { ReviewsSection } from "@/components/guest/ReviewsSection";
+import { SpecsTable } from "@/components/guest/SpecsTable";
 import { Divider } from "@/components/ui/Divider";
 import { getPropertyBySlug } from "@/lib/properties";
+import { listApprovedReviews } from "@/lib/reviews";
 import type { PropertyCardData } from "@/lib/seed-fallback";
 
 interface PropertyDetailPageProps {
@@ -29,16 +34,17 @@ function hostMetaLine(property: PropertyCardData): string {
   return `${property.maxGuests} guests • ${property.bedrooms} bedrooms • ${property.beds} beds • ${property.baths} baths`;
 }
 
-// Property detail — top half (plan 2 task 5, per mockup secondpage):
+// Property detail (plan 2 tasks 5–6, per mockup secondpage):
 // H1 + rating/location meta, 5-image gallery, hosted-by + description,
-// sticky presentational BookingCard in the right column. Bottom half
-// (amenities, specs, map, reviews) lands in plan 2 task 6.
+// amenities grid, specs table, location map card, reviews — with a sticky
+// presentational BookingCard in the right column.
 export default async function PropertyDetailPage({
   params,
 }: PropertyDetailPageProps) {
   const { slug } = await params;
   const property = await getPropertyBySlug(slug);
   if (!property) notFound();
+  const reviews = await listApprovedReviews(slug);
 
   return (
     <section className="w-full">
@@ -93,6 +99,17 @@ export default async function PropertyDetailPage({
               {property.description}
             </p>
             <Divider className="my-6" />
+            <AmenitiesGrid amenities={property.amenities} />
+            <Divider className="my-6" />
+            <SpecsTable specs={property.specs} />
+            <Divider className="my-6" />
+            <MapCard />
+            <Divider className="my-6" />
+            <ReviewsSection
+              reviews={reviews}
+              rating={property.rating}
+              reviewCount={property.reviewCount}
+            />
           </div>
 
           <aside className="lg:sticky lg:top-24 lg:self-start">
