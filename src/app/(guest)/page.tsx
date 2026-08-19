@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 
+import { CuratedExperiences } from "@/components/guest/CuratedExperiences";
 import { FeaturedSanctuary } from "@/components/guest/FeaturedSanctuary";
 import { Hero } from "@/components/guest/Hero";
+import { PressQuote } from "@/components/guest/PressQuote";
+import { TheCollection } from "@/components/guest/TheCollection";
 import { db } from "@/lib/db";
 import {
   fallbackProperties,
@@ -78,6 +81,9 @@ export default async function Home() {
     <>
       <Hero />
       <FeaturedSanctuary property={featured} />
+      <TheCollection properties={fallbackProperties.slice(1)} />
+      <CuratedExperiences />
+      <PressQuote />
     </>
   );
 }
