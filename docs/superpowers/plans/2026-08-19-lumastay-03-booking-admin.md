@@ -416,21 +416,21 @@ git commit -m "feat: mock payment provider + booking e2e"
 **Interfaces:**
 - Produces: `getOverviewMetrics(): Promise<OverviewMetrics>` — `{ revenueYtd, revenueDeltaPct, occupancyPct, totalBookings, pendingCount, nextArrival: { guestName, property, guests, time } | null, activity30d: { date: string, count: number }[], recent: { icon, title, sub, ago }[] }` (fallback data offline)
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/admin-metrics.test.ts`: mock db aggregates → revenue sums PAID payments YTD; occupancy = booked nights/(active properties × days in month); nextArrival = today's earliest CONFIRMED check-in; DB error → fallback object with mockup values (RM 45,200 / 88% / 1,204 / 8 pending / Ahmad Aiman).
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `admin/layout.tsx`: `requireAdmin()`; SideNav (240px, per mockup: brand block + black `+ Add New Booking` → `/admin/bookings/new` (stub page phase-1-lite: manual booking form minimal) + 7 nav items with phosphor icons + active pill + divider + Settings bottom; drawer on mobile with ×); TopBar (tabs Overview/Analytics/Operations — Analytics/Operations are `aria-disabled` stubs phase 2; search input decor; bell, `DotsNine`, `Question`, avatar).
 
 Overview page: headline-md "Overview" + subcopy; KPI grid 3 KpiCard (LabelCaps label, display value mono-data 28px, subtext with `TrendUp`/`Clock` icons) + dark alert card (`bg-primary-container` white text: LabelCaps "⚠ IMPORTANT TODAY", "Guest Arrival", "Ahmad Aiman at The Pavilion", "2 Guests • 3:00 PM"); BookingActivityChart (CSS bar chart: 30 bars `surface-dim`, max bar `primary`, x labels "01 Oct / 15 Oct / 30 Oct", LabelCaps "VIEW FULL REPORT" link stub); Recent Activity feed (icon squares `surface-container`, divider rows, 3 items verbatim-ish from metrics).
 
-- [ ] **Step 4: Run test — PASS + build + render check (`curl /admin` with session cookie or guard-bypass test env → assert KPI labels; verify redirect without session)**
+- [x] **Step 4: Run test — PASS + build + render check (`curl /admin` with session cookie or guard-bypass test env → assert KPI labels; verify redirect without session)**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
