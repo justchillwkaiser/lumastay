@@ -249,7 +249,7 @@ git commit -m "feat: booking steps dates/guests/details"
 **Interfaces:**
 - Produces: `createBooking(input): Promise<{ reference: string } | { error: string }>` in `lib/bookings.ts` — validates + recomputes + inserts in a transaction (guest upsert by email; booking; optional payment row); POST `/api/bookings`
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/bookings-create.test.ts` (mock db + availability):
 ```ts
@@ -298,17 +298,17 @@ describe("createBooking", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `lib/bookings.ts`: zod-validate input → capacity check → `isRangeBookable` (fail closed) → `computePrice` from DB property → `$transaction`: guest upsert by email, booking create (snapshots + reference), payment row PENDING (method from provider factory, `mock` default) → return reference. API route: POST → JSON; 400 on `{error}`.
 
 `review/page.tsx`: full params guard (dates+guests+details); circle stepper step=4; centered headline-md "Review Your Stay"; left cards: Booking Summary (PROPERTY/GUESTS/CHECK-IN "Oct 24, 2024 - From 3:00 PM"/CHECK-OUT rows per mockup + room thumb "Private Villa with Pool / Non-smoking • 1 King Bed") + Guest Details (PRIMARY GUEST, CONTACT email+phone); right: price card (`computePrice` rows verbatim "4 nights x RM 3,200", Cleaning Fee, Service Fee, divider, Total + "MYR" label + "Includes taxes and fees") + ConfirmButton (POST, loading state, on success redirect `/book/confirmed?ref=LS-1042`) + terms line verbatim "By confirming this booking, you agree to our Terms of Service and Privacy Policy."
 
-- [ ] **Step 4: Run test — PASS + build**
+- [x] **Step 4: Run test — PASS + build**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests

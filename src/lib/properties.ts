@@ -50,6 +50,8 @@ function toCardData(row: PropertyRow): PropertyCardData {
     cleaningFee: row.cleaningFee.toString(),
     serviceFeePct: row.serviceFeePct.toString(),
     taxPct: row.taxPct.toString(),
+    checkInTime: row.checkInTime,
+    checkOutTime: row.checkOutTime,
     maxGuests: row.maxGuests,
     bedrooms: row.bedrooms,
     beds: row.beds,

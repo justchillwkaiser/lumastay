@@ -138,14 +138,12 @@ model PropertySpec {
 model Guest {
   id        String    @id @default(cuid())
   name      String
-  email     String
+  email     String    @unique
   phone     String
   userId    String?   @unique // linked Better Auth user when claimed
   user      User?     @relation(fields: [userId], references: [id])
   bookings  Booking[]
   createdAt DateTime  @default(now())
-
-  @@index([email])
 }
 
 model Booking {

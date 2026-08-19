@@ -39,6 +39,8 @@ export interface PropertyCardData {
   cleaningFee: string; // decimal string, e.g. "400.00" (plan 3 pricing)
   serviceFeePct: string; // decimal string, e.g. "5.0"
   taxPct: string; // decimal string, e.g. "0"
+  checkInTime: string; // e.g. "3:00 PM"
+  checkOutTime: string; // e.g. "12:00 PM"
   maxGuests: number;
   bedrooms: number;
   beds: number;
@@ -69,6 +71,8 @@ export const fallbackProperties: PropertyCardData[] = [
     cleaningFee: "400.00",
     serviceFeePct: "5.0",
     taxPct: "0",
+    checkInTime: "3:00 PM",
+    checkOutTime: "12:00 PM",
     maxGuests: 8,
     bedrooms: 4,
     beds: 4,
@@ -105,6 +109,8 @@ export const fallbackProperties: PropertyCardData[] = [
     cleaningFee: "400.00",
     serviceFeePct: "5.0",
     taxPct: "0",
+    checkInTime: "3:00 PM",
+    checkOutTime: "12:00 PM",
     maxGuests: 4,
     bedrooms: 2,
     beds: 2,
@@ -139,6 +145,8 @@ export const fallbackProperties: PropertyCardData[] = [
     cleaningFee: "400.00",
     serviceFeePct: "5.0",
     taxPct: "0",
+    checkInTime: "3:00 PM",
+    checkOutTime: "12:00 PM",
     maxGuests: 6,
     bedrooms: 4,
     beds: 4,
@@ -173,6 +181,8 @@ export const fallbackProperties: PropertyCardData[] = [
     cleaningFee: "400.00",
     serviceFeePct: "5.0",
     taxPct: "0",
+    checkInTime: "3:00 PM",
+    checkOutTime: "12:00 PM",
     maxGuests: 6,
     bedrooms: 3,
     beds: 3,
