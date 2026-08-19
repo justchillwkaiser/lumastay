@@ -460,20 +460,20 @@ git commit -m "feat: property amenities, specs, map, reviews"
 - Modify: any component failing checks
 - Create: `tests/a11y-notes.md`
 
-- [ ] **Step 1: Manual + scripted checks**
+- [x] **Step 1: Manual + scripted checks**
 
 - Viewport sweep 390/768/1280/1440 via Playwright screenshot script (`npx playwright screenshot --viewport-size=390,844 http://localhost:3000/ ...`): nav drawer, hero readable (display-lg-mobile), collection 1-col, gallery scroll-snap, booking card stacked below content, footer stacked.
 - Contrast spot-check with `designmd lint` on any adjusted tokens; verify sage-on-dark quote text ≥ 4.5:1 (if not, bump to `primary-fixed` `#d8e6d9`).
 - Keyboard: tab order hero CTA → cards → footer; focus-visible rings on all links/buttons (`outline: 2px solid primary`, offset 2px — add to globals if missing).
 - `prefers-reduced-motion`: verify drawer/reveals static (grep components for `useReducedMotion`).
 
-- [ ] **Step 2: Fix findings in one batch; re-run checks once**
+- [x] **Step 2: Fix findings in one batch; re-run checks once**
 
-- [ ] **Step 3: Verify**
+- [x] **Step 3: Verify**
 
 Run: `npm run typecheck && npm test && npm run build` — all green.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
