@@ -118,7 +118,7 @@ async function main() {
       email: "admin@lumastay.my",
       emailVerified: true,
       role: "ADMIN",
-      accounts: {
+      account: {
         create: {
           accountId: "admin@lumastay.my",
           providerId: "credential",
@@ -134,7 +134,7 @@ async function main() {
       email: "staff@lumastay.my",
       emailVerified: true,
       role: "STAFF",
-      accounts: {
+      account: {
         create: {
           accountId: "staff@lumastay.my",
           providerId: "credential",
