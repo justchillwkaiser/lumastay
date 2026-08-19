@@ -447,19 +447,19 @@ git commit -m "feat: admin shell + overview dashboard"
 **Interfaces:**
 - Produces: `listBookings(query): Promise<{ rows: BookingRow[]; total: number }>` — filters `status`, `propertyId`, `from`, `to`, `search`, `page`, `pageSize=4`(mockup rhythm; make 10 default w/ test) ; BookingRow = `{ id, reference, guestName, propertyName, stayDates, amount, status }`
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/admin-bookings.test.ts`: mock db `findMany`/`count` → where clause includes status filter + OR search across reference/guest.name/property.name; pagination `skip/take` correct for page 3; amount formatted "RM 1,240" style via `formatMyr`; fallback rows (BK-1042..BK-1045 verbatim) when DB offline.
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 RSC page: search + filters as GET form (server round-trip, searchParams Promise); bulk toolbar client leaf (selection state; "0 selected" + Confirm/Message/Cancel disabled until selection; bulk confirm POSTs to `/api/admin/bookings/bulk` with `requireAdmin` + two-layer check). Table = TanStack in client leaf receiving rows via props: checkbox col, BOOKING ID (`mono-data` gray), GUEST, PROPERTY, STAY DATES ("Oct 12 - Oct 15"), AMOUNT right-aligned, STATUS Badge, `DotsThreeVertical` row menu (Confirm/Cancel/View). Pagination verbatim: "Showing 1 to 4 of 128 results" + Prev [1] 2 3 … 12 Next (active = filled black square).
 
-- [ ] **Step 4: Run test — PASS + build**
+- [x] **Step 4: Run test — PASS + build**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
