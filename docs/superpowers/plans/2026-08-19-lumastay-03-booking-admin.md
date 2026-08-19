@@ -37,7 +37,7 @@
   - `computePrice(property: { nightlyRate: string; cleaningFee: string; serviceFeePct: string; taxPct: string }, nights: number): PriceBreakdown` — `PriceBreakdown = { nights: number; nightlyRate: string; subtotal: string; cleaningFee: string; serviceFee: string; taxAmount: string; total: string }`
   - `nextBookingReference(): Promise<string>` — `LS-1042`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 `tests/pricing.test.ts`:
 ```ts
@@ -104,9 +104,9 @@ describe("availability engine", () => {
 
 `tests/booking-reference.test.ts`: mock sequence query → expect format `/^LS-\d{4,}$/`.
 
-- [ ] **Step 2: Run tests — verify FAIL**
+- [x] **Step 2: Run tests — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `src/lib/pricing.ts`: decimal math via string-safe integer cents (multiply by 100, round half-up); serviceFee = pct × (subtotal + cleaningFee); tax = pct × (subtotal + cleaning + service); throw on nights < 1.
 
@@ -114,9 +114,9 @@ describe("availability engine", () => {
 
 `src/lib/booking-reference.ts`: `CREATE SEQUENCE IF NOT EXISTS booking_ref_seq START 1024` (ensure in migration); `SELECT nextval('booking_ref_seq')` → `LS-${n}`. Retry on unique collision.
 
-- [ ] **Step 4: Run tests — verify PASS + typecheck**
+- [x] **Step 4: Run tests — verify PASS + typecheck**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
