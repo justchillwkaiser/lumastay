@@ -325,7 +325,7 @@ git commit -m "feat: booking creation + review step"
 **Interfaces:**
 - Produces: `/book/confirmed?ref=` (circle stepper step=5); `buildIcs(booking): string`; `/api/bookings/[ref]/ics` download; `/bookings/lookup` (ref + email → detail)
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/ics.test.ts`:
 ```ts
@@ -350,9 +350,9 @@ describe("buildIcs", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `ics.ts`: CRLF line endings, escape commas, `UID` = reference@lumastay.
 
@@ -362,9 +362,9 @@ describe("buildIcs", () => {
 
 Account claim (deferred wiring): when a GUEST user signs up/logs in, server action links `Guest.userId` where `email = user.email` — implement in `lib/guests.ts` + call from login success; `/account` lists their bookings (reuse detail card). Mark as phase-1-lite: include claim function + `/account` list only.
 
-- [ ] **Step 4: Run test — PASS + build + render check**
+- [x] **Step 4: Run test — PASS + build + render check**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
