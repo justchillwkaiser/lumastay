@@ -9,9 +9,9 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 // Soft-fill status tones per spec §3.4: confirmed = primary-fixed mint,
 // pending = secondary-fixed grey, cancelled = error-container red.
 const tones: Record<BadgeTone, string> = {
-  confirmed: "bg-[#d8e6d9] text-[#2d3930]",
-  pending: "bg-[#e2e3e1] text-[#434843]",
-  cancelled: "bg-[#ffdad6] text-[#ba1a1a]",
+  confirmed: "bg-primary-fixed text-primary-container",
+  pending: "bg-secondary-fixed text-on-surface-variant",
+  cancelled: "bg-error-container text-error",
 };
 
 const base =

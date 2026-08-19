@@ -13,6 +13,9 @@
   --color-inverse-on-surface: #f2f0f0;
   --color-outline: #747873;
   --color-outline-variant: #c3c8c2;
+  /* Spec §3.4 hairline: sanctioned divider color, tokenized so no component
+     hardcodes hex (plan constraint). */
+  --color-hairline: #e0e0e0;
   --color-surface-tint: #556157;
   --color-primary: #18241b;
   --color-on-primary: #ffffff;

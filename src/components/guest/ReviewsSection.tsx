@@ -68,10 +68,11 @@ export function ReviewsSection({
       </div>
 
       {/* Ghost button per mockup; href stubbed to # — reviews modal is
-          spec §10 phase 2. */}
+          spec §10 phase 2. focus-visible ring comes from the global
+          :focus-visible rule in globals.css (plan 2 task 7). */}
       <Link
         href="#"
-        className="mt-8 inline-flex items-center justify-center rounded border border-outline-variant bg-transparent px-6 py-3 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-surface"
+        className="mt-8 inline-flex items-center justify-center rounded border border-outline-variant bg-transparent px-6 py-3 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         Show all {reviewCount} reviews
       </Link>

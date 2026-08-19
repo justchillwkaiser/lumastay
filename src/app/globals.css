@@ -17,3 +17,25 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), "Inter", Arial, Helvetica, sans-serif;
 }
+
+/* Global keyboard focus ring (plan 2 task 7 a11y pass): 2px solid primary,
+   2px offset — safety net so every focusable element (including UI
+   primitives) shows a visible ring even where a component class is missing.
+   Guest components also carry explicit focus-visible: classes. */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Respect prefers-reduced-motion for any CSS transition/animation
+   (JS motion leaves use useReducedMotion — see MobileNavDrawer). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
