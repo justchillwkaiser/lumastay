@@ -390,7 +390,7 @@ git commit -m "feat: property detail gallery + booking card"
 **Interfaces:**
 - Produces: bottom half of detail page; `listApprovedReviews(propertySlug)` with fallback (James/Sarah verbatim)
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/property-sections.test.tsx`:
 ```tsx
@@ -429,9 +429,9 @@ describe("reviews", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 AmenitiesGrid: headline-sm; `grid-cols-2` (mobile 1) rows: icon 24px phosphor + label body-md; Dividers around section.
 
@@ -443,9 +443,9 @@ ReviewsSection: header `Star` fill + "**4.95** · 128 reviews" headline-sm; 2-co
 
 Compose into detail page below gallery section; right column BookingCard sticky alongside.
 
-- [ ] **Step 4: Run test — PASS + build + render check (`curl /villas/the-pavilion | grep "Merbau"`)**
+- [x] **Step 4: Run test — PASS + build + render check (`curl /villas/the-pavilion | grep "Merbau"`)**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
