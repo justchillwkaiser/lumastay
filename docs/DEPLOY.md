@@ -2,13 +2,13 @@
 
 ## Stack
 
-Next.js 16 · Prisma 7 (Postgres) · Better Auth · Vercel (region `sin1`).
+Next.js 16 · Prisma 7 (Postgres — **Neon**) · Better Auth · Vercel (region `sin1`).
 
 ## Environment Variables (`.env.example`)
 
 | Var | Notes |
 |-----|-------|
-| `DATABASE_URL` | **Use the Supabase pooler URL** — `postgresql://postgres.<ref>:<pass>@aws-0-<region>.pooler.supabase.com:6543/postgres?sslmode=no-verify`. Direct connections (`db.<ref>.supabase.co:5432`) are IPv6-only on Supabase and **fail from Vercel** (IPv4 egress). The pooler port 6543 is IPv4-reachable. |
+| `DATABASE_URL` | **Neon pooler URL** — `postgresql://<user>:<pass>@<host>-pooler.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`. Neon pooler is IPv4-reachable (Vercel-compatible). |
 | `AUTH_SECRET` | `openssl rand -base64 32` |
 | `BETTER_AUTH_URL` | `https://<project>.vercel.app` in production |
 | `PAYMENT_PROVIDER` | `mock` (phase 1); `toyyibpay`/`billplz` later |
@@ -18,7 +18,7 @@ Next.js 16 · Prisma 7 (Postgres) · Better Auth · Vercel (region `sin1`).
 
 ```bash
 vercel link
-vercel env add DATABASE_URL   # paste pooler URL
+vercel env add DATABASE_URL   # paste Neon pooler URL
 vercel env add AUTH_SECRET
 vercel env add BETTER_AUTH_URL
 vercel --prod
@@ -27,19 +27,23 @@ vercel --prod
 ## Database Setup
 
 ```bash
-# Apply migrations (sequence + guest email unique) against the pooler URL
+# Apply migrations (sequence + guest email unique + no_overlapping_bookings)
 DATABASE_URL="..." npx prisma migrate deploy
 
-# Seed properties + admin/staff users (admin@lumastay.my / lumastay-admin-2026)
+# Seed properties + admin/staff users
 DATABASE_URL="..." npx tsx prisma/seed.ts
 ```
 
+**Seeded accounts:**
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | `admin@lumastay.my` | `lumastay-admin-2026` |
+| Staff | `staff@lumastay.my` | `lumastay-staff-2026` |
+
 ## Pitfalls (verified)
 
-- **IPv6 pitfall:** direct Supabase host is IPv6-only — always use the pooler.
-- **`prisma generate`** runs via postinstall/build (`next build` needs the
-  generated client at `src/generated/prisma`).
-- **Playwright artifacts** (`test-results/`, `playwright-report/`) are
-  git-ignored.
-- Admin routes are guarded twice: `src/proxy.ts` matcher + `requireAdmin()`
-  in `src/app/admin/layout.tsx`. `/login` must exist for the redirect.
+- **Neon SSL warning** — `pg` v8 treats `sslmode=require` as `verify-full`; safe to ignore for now (will be standard in pg v9).
+- **`prisma generate`** runs via postinstall/build (`next build` needs the generated client at `src/generated/prisma`).
+- **Playwright artifacts** (`test-results/`, `playwright-report/`) are git-ignored.
+- Admin routes are guarded twice: `src/proxy.ts` matcher + `requireAdmin()` in `src/app/admin/layout.tsx`. `/login` must exist for the redirect.
