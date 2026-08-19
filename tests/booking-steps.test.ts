@@ -22,6 +22,14 @@ describe("step guards", () => {
       "REDIRECT:/book/dates",
     );
   });
+  it("guests allows missing property (defaults to the-pavilion)", () => {
+    expect(() =>
+      requireParamsFor(
+        "guests",
+        params({ property: null, checkIn: "2024-10-12", checkOut: "2024-10-15" }),
+      ),
+    ).not.toThrow();
+  });
   it("details requires dates + guests", () => {
     expect(() =>
       requireParamsFor(

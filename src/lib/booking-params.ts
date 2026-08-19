@@ -91,16 +91,16 @@ const STEP_REQUIREMENTS: Record<
 > = {
   dates: { missing: () => false, redirectTo: "/book/dates" },
   guests: {
-    missing: (p) => !p.property || !p.checkIn || !p.checkOut,
+    missing: (p) => !p.checkIn || !p.checkOut, // property defaults to the-pavilion at page level
     redirectTo: "/book/dates",
   },
   details: {
-    missing: (p) => !p.property || !p.checkIn || !p.checkOut,
+    missing: (p) => !p.checkIn || !p.checkOut,
     redirectTo: "/book/dates",
   },
   review: {
     missing: (p) =>
-      !p.property || !p.checkIn || !p.checkOut || !p.name || !p.email || !p.phone,
+      !p.checkIn || !p.checkOut || !p.name || !p.email || !p.phone,
     redirectTo: "/book/details",
   },
 };
