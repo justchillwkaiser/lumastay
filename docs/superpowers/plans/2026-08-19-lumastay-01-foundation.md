@@ -252,7 +252,7 @@ git commit -m "feat: prisma 7 schema (14 models) + db singleton"
 **Interfaces:**
 - Produces: `auth` (server), `authClient` (browser), `requireUser()`, `requireAdmin()` guards; proxy protecting `/admin/*` and `/account`
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/guards.test.ts`:
 ```ts
@@ -285,12 +285,12 @@ describe("guards", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
 Run: `npm test`
 Expected: FAIL (`@/lib/guards` not found)
 
-- [ ] **Step 3: Implement auth stack**
+- [x] **Step 3: Implement auth stack**
 
 `src/lib/auth.ts`:
 ```ts
@@ -359,12 +359,12 @@ export function proxy(request: NextRequest) {
 export const config = { matcher: ["/admin/:path*", "/account"] };
 ```
 
-- [ ] **Step 4: Run test — verify PASS**
+- [x] **Step 4: Run test — verify PASS**
 
 Run: `npm test && npm run typecheck`
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/lib src/app/api src/proxy.ts tests
