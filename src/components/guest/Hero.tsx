@@ -1,11 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown } from "@phosphor-icons/react/dist/ssr";
 
+import { ParallaxHeroImage } from "@/components/guest/motion";
 import { heroCopy } from "@/lib/seed-fallback";
 
 // Frontpage hero (spec §4.1 + plan 2 task 2):
 // - min-h-[100dvh], next/image fill + priority (CLS guard)
+// - parallax: image layer drifts 60px slower than scroll (client leaf,
+//   reduced-motion falls back to the static fill image)
 // - white scrim rising from the bottom so the bottom-left content stays AA
 // - 3-line display-lg headline; line 3 faded via opacity-50 (NOT a gradient mask)
 // - content pinned bottom-left, 5% gutter, ~10vh bottom clearance
@@ -15,14 +17,7 @@ export function Hero() {
 
   return (
     <section className="relative flex min-h-[100dvh] items-end overflow-hidden">
-      <Image
-        src={heroCopy.image}
-        alt={heroCopy.imageAlt}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
+      <ParallaxHeroImage src={heroCopy.image} alt={heroCopy.imageAlt} />
       {/* White scrim: strong at the fold, transparent by 45% height. */}
       <div
         aria-hidden="true"

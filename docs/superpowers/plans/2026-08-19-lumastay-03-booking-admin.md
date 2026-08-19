@@ -137,7 +137,7 @@ git commit -m "feat: availability engine + pricing + booking reference"
   - `<BookingStepper step={1..5} variant="text|circle" />`
   - `<SummaryCard property params breakdown />` (right-column card per mockups)
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 `tests/booking-params.test.ts`:
 ```ts
@@ -167,9 +167,9 @@ describe("parseBookingParams", () => {
 
 `tests/date-picker.test.tsx`: render with `states` map; assert `2024-10-12` cell has `bg-primary` + white text, `2024-10-13` has sage band class, past cell has hatch class (`bg-[repeating-linear-gradient` or data-attr), clicking 12 then 15 calls `onChange("2024-10-12","2024-10-15")`; clicking an already-selected start resets range.
 
-- [ ] **Step 2: Run tests — verify FAIL**
+- [x] **Step 2: Run tests — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `booking-params.ts`: pure functions, no DB.
 
@@ -179,9 +179,9 @@ describe("parseBookingParams", () => {
 
 `SummaryCard`: grayscale villa thumb (`grayscale` filter), LabelCaps "THE VILLAS" + property shortName, `mono-data` rate, Divider, CHECK-IN/CHECK-OUT two-col (LabelCaps + value or "—"), Divider, breakdown rows (`mono-data`, underlined-label style per mockup where applicable), Divider, TOTAL row large bold, slot for CTA button (children).
 
-- [ ] **Step 4: Run tests — PASS + typecheck + build**
+- [x] **Step 4: Run tests — PASS + typecheck + build**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests

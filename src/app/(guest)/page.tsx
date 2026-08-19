@@ -4,6 +4,7 @@ import { CuratedExperiences } from "@/components/guest/CuratedExperiences";
 import { FeaturedSanctuary } from "@/components/guest/FeaturedSanctuary";
 import { Hero } from "@/components/guest/Hero";
 import { PressQuote } from "@/components/guest/PressQuote";
+import { Reveal } from "@/components/guest/motion";
 import { TheCollection } from "@/components/guest/TheCollection";
 import { db } from "@/lib/db";
 import {
@@ -80,10 +81,18 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <FeaturedSanctuary property={featured} />
-      <TheCollection properties={fallbackProperties.slice(1)} />
-      <CuratedExperiences />
-      <PressQuote />
+      <Reveal>
+        <FeaturedSanctuary property={featured} />
+      </Reveal>
+      <Reveal>
+        <TheCollection properties={fallbackProperties.slice(1)} />
+      </Reveal>
+      <Reveal>
+        <CuratedExperiences />
+      </Reveal>
+      <Reveal>
+        <PressQuote />
+      </Reveal>
     </>
   );
 }
