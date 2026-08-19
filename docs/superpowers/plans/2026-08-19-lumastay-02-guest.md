@@ -36,7 +36,7 @@
 **Interfaces:**
 - Produces: `<TopNavBar active="villas" />`, `<Footer />` used by all guest pages; `(guest)` route group layout wrapping both
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/guest-chrome.test.tsx`:
 ```tsx
@@ -73,11 +73,11 @@ describe("guest chrome", () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
 Run: `npm test` → FAIL (components missing)
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 TopNavBar (per mockup): solid `surface` bg, ~88px h, 1px bottom border; wordmark `LUMASTAY` 18px/500/uppercase/0.15em tracking, left 40px; center links 13–14px `on-surface-variant`, active = `on-surface` + 1px underline offset 4px; right CTA `Book Your Stay` bg `primary-container` text white radius 4px px-7 py-3, right 40px; single line at lg; hamburger < lg opens `MobileNavDrawer` (client leaf: slide-in drawer, × close, same links, motion with useReducedMotion collapse).
 
@@ -85,11 +85,11 @@ Footer (per mockup): `surface-container-low` bg; row 1: wordmark left (13px/500/
 
 `(guest)/layout.tsx`: `<TopNavBar active={...} />` per-segment via layout per page section (pass active via per-page layouts or pathname client hook in a small client leaf); `<Footer />` after children.
 
-- [ ] **Step 4: Run test — verify PASS + build**
+- [x] **Step 4: Run test — verify PASS + build**
 
 Run: `npm test && npm run typecheck && npm run build`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
