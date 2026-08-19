@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import { BookingStepper } from "@/components/guest/booking/BookingStepper";
+import { StepTransition } from "@/components/guest/booking/StepTransition";
 import { SummaryCard } from "@/components/guest/booking/SummaryCard";
 import {
   bookingParamsToSearch,
@@ -70,7 +71,7 @@ export default async function GuestsPage({
       </h1>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_380px]">
-        <div className="max-w-[420px]">
+        <StepTransition className="max-w-[420px]">
           <GuestsCountersClient
             adults={params.adults}
             children={params.children}
@@ -80,7 +81,7 @@ export default async function GuestsPage({
           <p className="mt-4 text-sm text-on-surface-variant">
             This property accommodates up to {property.maxGuests} guests.
           </p>
-        </div>
+        </StepTransition>
         <SummaryCard property={property} params={params} breakdown={breakdown}>
           <ContinueButton href={`/book/details?${nextSearch}`} enabled />
         </SummaryCard>

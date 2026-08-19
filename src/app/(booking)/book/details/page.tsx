@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import { BookingStepper } from "@/components/guest/booking/BookingStepper";
+import { StepTransition } from "@/components/guest/booking/StepTransition";
 import { SummaryCard } from "@/components/guest/booking/SummaryCard";
 import {
   bookingParamsToSearch,
@@ -68,21 +69,23 @@ export default async function DetailsPage({
       </h1>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_380px]">
-        <DetailsForm
-          defaults={{
-            name: params.name ?? "",
-            email: params.email ?? "",
-            phone: params.phone ?? "",
-            requests: params.requests ?? "",
-          }}
-          baseSearch={bookingParamsToSearch({
-            ...params,
-            name: null,
-            email: null,
-            phone: null,
-            requests: null,
-          })}
-        />
+        <StepTransition>
+          <DetailsForm
+            defaults={{
+              name: params.name ?? "",
+              email: params.email ?? "",
+              phone: params.phone ?? "",
+              requests: params.requests ?? "",
+            }}
+            baseSearch={bookingParamsToSearch({
+              ...params,
+              name: null,
+              email: null,
+              phone: null,
+              requests: null,
+            })}
+          />
+        </StepTransition>
         <SummaryCard property={property} params={params} breakdown={breakdown} />
       </div>
     </div>

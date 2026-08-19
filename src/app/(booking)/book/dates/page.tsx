@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { BookingStepper } from "@/components/guest/booking/BookingStepper";
+import { StepTransition } from "@/components/guest/booking/StepTransition";
 import { SummaryCard } from "@/components/guest/booking/SummaryCard";
 import { getDateStates } from "@/lib/availability";
 import {
@@ -74,14 +75,14 @@ export default async function DatesPage({
       </h1>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_380px]">
-        <div className="max-w-[420px]">
+        <StepTransition className="max-w-[420px]">
           <DatesPickerClient
             month={month}
             states={states}
             value={{ checkIn: params.checkIn, checkOut: params.checkOut }}
             baseSearch={base}
           />
-        </div>
+        </StepTransition>
         <SummaryCard property={property} params={params} breakdown={breakdown}>
           <ContinueButton
             href={`/book/guests?${nextSearch}`}
