@@ -7,6 +7,7 @@
 import { db } from "@/lib/db";
 import {
   fallbackProperties,
+  getPropertyBySlugFallback,
   type PropertyCardData,
 } from "@/lib/seed-fallback";
 
@@ -76,5 +77,22 @@ export async function listProperties(): Promise<PropertyCardData[]> {
     return rows.map(toCardData);
   } catch {
     return fallbackProperties;
+  }
+}
+
+// Property detail lookup (plan 2 task 5). Same fallback contract as
+// listProperties: DB row wins, seed-fallback when the DB is down/empty,
+// null for unknown slugs (page renders notFound()).
+export async function getPropertyBySlug(
+  slug: string,
+): Promise<PropertyCardData | null> {
+  try {
+    const rows = await fetchRows();
+    const row = rows.find((r) => r.slug === slug);
+    if (row) return toCardData(row);
+    if (rows.length > 0) return null;
+    return getPropertyBySlugFallback(slug) ?? null;
+  } catch {
+    return getPropertyBySlugFallback(slug) ?? null;
   }
 }
