@@ -40,4 +40,11 @@ describe("createBooking", () => {
     const res = await createBooking({ ...input, adults: 9 });
     expect(res).toEqual({ error: "OVER_CAPACITY" });
   });
+  it("DB exclusion violation (23J01) => DATES_UNAVAILABLE (race-condition guard)", async () => {
+    bookable.mockResolvedValue(true); // pre-check passes (the race window)
+    tx.mockRejectedValue(Object.assign(new Error("exclusion violation"), { code: "23J01" }));
+    const { createBooking } = await import("@/lib/bookings");
+    const res = await createBooking(input);
+    expect(res).toEqual({ error: "DATES_UNAVAILABLE" });
+  });
 });

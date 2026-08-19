@@ -80,47 +80,57 @@ export async function createBooking(
 
   const reference = await nextBookingReference();
 
-  await db.$transaction(async (tx) => {
-    const guest = await tx.guest.upsert({
-      where: { email: input.email },
-      create: { name: input.name, email: input.email, phone: input.phone },
-      update: { name: input.name, phone: input.phone },
-    });
-    const booking = await tx.booking.create({
-      data: {
-        reference,
-        propertyId: (property as { id?: string }).id ?? property.slug,
-        guestId: guest.id,
-        checkIn: new Date(`${input.checkIn}T00:00:00Z`),
-        checkOut: new Date(`${input.checkOut}T00:00:00Z`),
-        nights,
-        adults: input.adults,
-        children: input.children,
-        status: "PENDING",
-        nightlyRate: price.nightlyRate,
-        cleaningFee: price.cleaningFee,
-        serviceFee: price.serviceFee,
-        taxAmount: price.taxAmount,
-        totalAmount: price.total,
-        specialRequests: input.specialRequests || null,
-        source: "Direct Website",
-      },
-    });
-    // Phase-1 mock payment row (Task 6 upgrades status via provider).
-    // Optional per plan interface: only created when the payment model is
-    // available on the transaction client.
-    const paymentModel = (tx as { payment?: { create: (a: unknown) => Promise<unknown> } }).payment;
-    if (paymentModel) {
-      await paymentModel.create({
+  try {
+    await db.$transaction(async (tx) => {
+      const guest = await tx.guest.upsert({
+        where: { email: input.email },
+        create: { name: input.name, email: input.email, phone: input.phone },
+        update: { name: input.name, phone: input.phone },
+      });
+      const booking = await tx.booking.create({
         data: {
-          bookingId: booking.id,
-          amount: price.total,
-          method: "mock-fpx",
+          reference,
+          propertyId: (property as { id?: string }).id ?? property.slug,
+          guestId: guest.id,
+          checkIn: new Date(`${input.checkIn}T00:00:00Z`),
+          checkOut: new Date(`${input.checkOut}T00:00:00Z`),
+          nights,
+          adults: input.adults,
+          children: input.children,
           status: "PENDING",
+          nightlyRate: price.nightlyRate,
+          cleaningFee: price.cleaningFee,
+          serviceFee: price.serviceFee,
+          taxAmount: price.taxAmount,
+          totalAmount: price.total,
+          specialRequests: input.specialRequests || null,
+          source: "Direct Website",
         },
       });
-    }
-  });
+      // Phase-1 mock payment row (Task 6 upgrades status via provider).
+      // Optional per plan interface: only created when the payment model is
+      // available on the transaction client.
+      const paymentModel = (tx as { payment?: { create: (a: unknown) => Promise<unknown> } }).payment;
+      if (paymentModel) {
+        await paymentModel.create({
+          data: {
+            bookingId: booking.id,
+            amount: price.total,
+            method: "mock-fpx",
+            status: "PENDING",
+          },
+        });
+      }
+    });
+  } catch (e) {
+    // Postgres exclusion constraint violation (23J01) — two concurrent
+    // requests both passed isRangeBookable, but the DB-level constraint
+    // `no_overlapping_bookings` rejects the second insert atomically.
+    // Surface it as the same user-facing code as the pre-check.
+    const code = (e as { code?: string }).code;
+    if (code === "23J01") return { error: "DATES_UNAVAILABLE" };
+    throw e;
+  }
 
   return { reference };
 }
