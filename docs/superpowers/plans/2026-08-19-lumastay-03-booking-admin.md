@@ -476,19 +476,19 @@ git commit -m "feat: admin bookings table + bulk actions"
 **Interfaces:**
 - Produces: `getBookingDetail(id)`, `confirmBooking(id)`, `cancelBooking(id)` (releases dates — status CANCELLED; availability auto-frees via engine), `recordPayment(id, { amount, method, note })`, `addNote(id, body, authorId)`
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/admin-booking-detail.test.ts`: confirm sets status CONFIRMED + writes timeline note; cancel sets CANCELLED and `isRangeBookable` for its range returns true after (mock); recordPayment creates PAID payment + booking status CONFIRMED when fully paid; addNote stores author + timestamp; unauthorized (no session) → 401/redirect (guard test per Plan 1 pattern).
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Page per mockup: header "Booking LS-1042" + Badge + "Created on Aug 1, 2024 via Direct Website"; actions Print (ghost, `window.print()` client leaf) + Confirm Booking (primary, POST); grid 65/35: Guest Information card (avatar square, name, email, phone, "Returning Guest" with icon when ≥2 bookings; "Contact Guest" `mailto:` link) / Property card (image, name, location, capacity/beds rows) / Stay Details (Check-in bold date + time, "3 N" center indicator, Check-out; Occupancy; Special Requests) | right rail: Payment Summary (rows + Total + "Unpaid" `error` red when unpaid, "Record Payment" opens inline form: amount/method select/note), Internal Notes (gray note box + "Added by: Sarah L. (Aug 2)" + edit affordance adding new note), Cancel Booking (full-width `error-container` bg, `error` text, `Prohibit` icon, confirm dialog).
 
-- [ ] **Step 4: Run test — PASS + build**
+- [x] **Step 4: Run test — PASS + build**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests
