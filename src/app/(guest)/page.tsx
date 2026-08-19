@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 
 import { CuratedExperiences } from "@/components/guest/CuratedExperiences";
+import { Experiences } from "@/components/guest/Experiences";
 import { FeaturedSanctuary } from "@/components/guest/FeaturedSanctuary";
 import { Hero } from "@/components/guest/Hero";
+import { OurHeritage } from "@/components/guest/OurHeritage";
 import { PressQuote } from "@/components/guest/PressQuote";
 import { Reveal } from "@/components/guest/motion";
+import { Sustainability } from "@/components/guest/Sustainability";
 import { TheCollection } from "@/components/guest/TheCollection";
 import { db } from "@/lib/db";
 import {
@@ -94,6 +97,15 @@ export default async function Home() {
       </Reveal>
       <Reveal>
         <CuratedExperiences />
+      </Reveal>
+      <Reveal>
+        <OurHeritage />
+      </Reveal>
+      <Reveal>
+        <Experiences />
+      </Reveal>
+      <Reveal>
+        <Sustainability />
       </Reveal>
       <Reveal>
         <PressQuote />
