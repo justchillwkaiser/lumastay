@@ -7,9 +7,12 @@ import { useRouter } from "next/navigation";
 // success redirect /book/confirmed?ref=<reference>; inline error otherwise.
 export interface ConfirmButtonProps {
   payload: Record<string, unknown>;
+  /** When true ("Pay now online"), redirect to the provider's payment page
+   *  instead of straight to confirmed (plan 3 task 6 wiring). */
+  payNow?: boolean;
 }
 
-export function ConfirmButton({ payload }: ConfirmButtonProps) {
+export function ConfirmButton({ payload, payNow = false }: ConfirmButtonProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,6 +35,10 @@ export function ConfirmButton({ payload }: ConfirmButtonProps) {
         );
         return;
       }
+      if (payNow) {
+        router.push(`/pay/mock/${data.reference}`);
+        return;
+      }
       router.push(`/book/confirmed?ref=${data.reference}`);
     } catch {
       setError("Network error. Please try again.");
@@ -46,9 +53,17 @@ export function ConfirmButton({ payload }: ConfirmButtonProps) {
         type="button"
         onClick={handleConfirm}
         disabled={loading}
-        className="inline-flex w-full items-center justify-center gap-2 rounded bg-primary px-6 py-3 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-primary transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        className={
+          payNow
+            ? "inline-flex w-full items-center justify-center gap-2 rounded px-6 py-2 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-surface underline underline-offset-4 transition-colors hover:text-on-surface-variant disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            : "inline-flex w-full items-center justify-center gap-2 rounded bg-primary px-6 py-3 text-label-caps font-bold uppercase leading-none tracking-[0.1em] text-on-primary transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        }
       >
-        {loading ? "Confirming…" : "Confirm booking"}
+        {loading
+          ? "Confirming…"
+          : payNow
+            ? "Pay now online"
+            : "Confirm booking"}
       </button>
       {error && (
         <p className="mt-3 text-label-caps text-error" role="alert">

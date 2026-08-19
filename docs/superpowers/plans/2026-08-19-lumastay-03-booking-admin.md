@@ -381,25 +381,25 @@ git commit -m "feat: confirmed page, ics, lookup, account claim"
 **Interfaces:**
 - Produces: `PaymentProvider` interface (spec §5 FR-5), `MockPaymentProvider`, `getPaymentProvider()`; mock FPX page (bank picker list: Maybank2u, CIMB Clicks, Public Bank, Bank Islam + Pay Success/Pay Fail buttons) → callback marks Payment PAID/FAILED + Booking CONFIRMED on paid
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/payments-mock.test.ts`: mock db; `handleCallback({ reference, outcome: "success" })` → payment status PAID, booking CONFIRMED; `outcome: "fail"` → FAILED, booking stays PENDING; unknown reference → `{ status: "failed" }` without throwing.
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Provider interface verbatim from spec. Mock: `createPayment` returns `/pay/mock/<bookingRef>`; page lists banks (Swiss list, hairline rows, radio-style) + two buttons (primary "Pay Success - RM X", ghost "Simulate Failure"); both POST callback → redirect `/book/confirmed?ref=` (success) or `/book/review?...&error=payment_failed` (fail — review page shows inline error banner per harden pattern). Callback route validates reference + outcome, updates in transaction.
 
 Wire into Review ConfirmButton: after `createBooking`, if `PAYMENT_PROVIDER=mock` AND param `pay=now`, redirect to provider `redirectUrl` instead of straight to confirmed. Default button copy stays "CONFIRM BOOKING" (pay-later path per design "You won't be charged yet"); secondary link "Pay now online" under terms (LabelCaps style).
 
-- [ ] **Step 4: Run test — PASS + build**
+- [x] **Step 4: Run test — PASS + build**
 
-- [ ] **Step 5: Playwright E2E (booking flow)**
+- [x] **Step 5: Playwright E2E (booking flow)**
 
 `e2e/booking.spec.ts`: home → Explore Villa → RESERVE NOW → pick range → continue → guests → details (fill Alexander Wright) → review (assert totals "RM 13,860.00" recomputed text present... use data-testid `total`) → CONFIRM BOOKING → confirmed page shows `#LS-` reference → ADD TO CALENDAR returns 200 `text/calendar`. Run: `npx playwright test`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src tests e2e

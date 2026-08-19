@@ -101,6 +101,10 @@ export default async function ReviewPage({
     specialRequests: params.requests ?? "",
   };
 
+  // Payment failure banner (harden pattern): PayButtons redirects here with
+  // ?error=payment_failed when the mock gateway outcome is "fail".
+  const paymentFailed = sp.get("error") === "payment_failed";
+
   return (
     <div className="mx-auto w-full max-w-[1280px] px-5 py-10 lg:px-10 lg:py-16">
       <div className="flex justify-center">
@@ -109,6 +113,18 @@ export default async function ReviewPage({
       <h1 className="mt-10 text-center text-headline-md font-semibold leading-headline-md tracking-headline-md text-on-surface">
         Review Your Stay
       </h1>
+
+      {paymentFailed && (
+        <div
+          role="alert"
+          className="mx-auto mt-6 max-w-[960px] rounded border border-error bg-error-container px-4 py-3"
+        >
+          <p className="text-sm font-semibold text-on-error-container">
+            Payment failed. No charge was made — review your details and try
+            again, or confirm now and pay later.
+          </p>
+        </div>
+      )}
 
       <div className="mx-auto mt-12 grid max-w-[960px] gap-8 lg:grid-cols-[1fr_360px]">
         {/* Left column */}
@@ -218,7 +234,10 @@ export default async function ReviewPage({
               <span className="text-base font-bold text-on-surface">
                 Total <span className="text-sm font-normal">(MYR)</span>
               </span>
-              <span className="text-mono-data text-xl font-bold text-on-surface">
+              <span
+                data-testid="total"
+                className="text-mono-data text-xl font-bold text-on-surface"
+              >
                 {formatMyr(price.total)}
               </span>
             </div>
@@ -227,6 +246,9 @@ export default async function ReviewPage({
             </p>
             <div className="mt-6">
               <ConfirmButton payload={payload} />
+            </div>
+            <div className="mt-2">
+              <ConfirmButton payload={payload} payNow />
             </div>
             <p className="mt-4 text-center text-sm text-on-surface-variant">
               By confirming this booking, you agree to our Terms of Service and
