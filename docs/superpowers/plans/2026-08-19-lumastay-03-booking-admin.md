@@ -199,7 +199,7 @@ git commit -m "feat: booking params, date picker, stepper, summary card"
 - Consumes: Task 1 + 2 exports; `getPropertyBySlug` (Plan 2)
 - Produces: `/book/dates|guests|details` with secure-booking chrome (brand left, "SECURE BOOKING" center, black `Close` right → `/villas/[slug]`)
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 `tests/booking-steps.test.ts`: unit-test the redirect guards each page uses:
 ```ts
@@ -218,9 +218,9 @@ describe("step guards", () => {
 
 (Implement `requireParamsFor(step, params)` in `booking-params.ts` — throws `REDIRECT:<path>` caught by page to `redirect()`.)
 
-- [ ] **Step 2: Run test — verify FAIL**
+- [x] **Step 2: Run test — verify FAIL**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `book/layout.tsx`: minimal chrome (NOT guest TopNavBar): h-16, brand wordmark left, LabelCaps "SECURE BOOKING" center, black Button "Close" right; 1px bottom border; Footer below children.
 
@@ -230,9 +230,9 @@ describe("step guards", () => {
 
 `details/page.tsx`: step guard; stepper step=3; react-hook-form + zod: `name` (min 2), `email`, `phone` (`/^\+60[\d\s-]{8,}$/`), `specialRequests` optional textarea; Input primitive (label-caps above, error below); values carried forward as URL params on submit (GET form → `/book/review?...&name=...&email=...&phone=...&requests=...`) so Review remains RSC. Add phone/name/email/requests to `BookingParams` + parser + tests (update Task 2 test expectations accordingly).
 
-- [ ] **Step 4: Run test — PASS + build + render check (`curl "/book/dates?property=the-pavilion" | grep "Select your dates"`)**
+- [x] **Step 4: Run test — PASS + build + render check (`curl "/book/dates?property=the-pavilion" | grep "Select your dates"`)**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src tests

@@ -36,6 +36,9 @@ export interface PropertyCardData {
   shortName: string;
   locationLine: string;
   nightlyRate: string; // decimal string, e.g. "3200.00"
+  cleaningFee: string; // decimal string, e.g. "400.00" (plan 3 pricing)
+  serviceFeePct: string; // decimal string, e.g. "5.0"
+  taxPct: string; // decimal string, e.g. "0"
   maxGuests: number;
   bedrooms: number;
   beds: number;
@@ -63,6 +66,9 @@ export const fallbackProperties: PropertyCardData[] = [
     shortName: "The Pavilion",
     locationLine: "Hulu Langat, Selangor, Malaysia",
     nightlyRate: "3200.00",
+    cleaningFee: "400.00",
+    serviceFeePct: "5.0",
+    taxPct: "0",
     maxGuests: 8,
     bedrooms: 4,
     beds: 4,
@@ -96,6 +102,9 @@ export const fallbackProperties: PropertyCardData[] = [
     shortName: "Courtyard House",
     locationLine: "Janda Baik, Pahang, Malaysia",
     nightlyRate: "950.00",
+    cleaningFee: "400.00",
+    serviceFeePct: "5.0",
+    taxPct: "0",
     maxGuests: 4,
     bedrooms: 2,
     beds: 2,
@@ -127,6 +136,9 @@ export const fallbackProperties: PropertyCardData[] = [
     shortName: "Limestone Retreat",
     locationLine: "Tambun, Perak, Malaysia",
     nightlyRate: "1400.00",
+    cleaningFee: "400.00",
+    serviceFeePct: "5.0",
+    taxPct: "0",
     maxGuests: 6,
     bedrooms: 4,
     beds: 4,
@@ -158,6 +170,9 @@ export const fallbackProperties: PropertyCardData[] = [
     shortName: "The Horizon Villa",
     locationLine: "Datai Bay, Langkawi, Malaysia",
     nightlyRate: "2100.00",
+    cleaningFee: "400.00",
+    serviceFeePct: "5.0",
+    taxPct: "0",
     maxGuests: 6,
     bedrooms: 3,
     beds: 3,
