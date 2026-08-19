@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
 
 import { getPaymentProvider } from "@/lib/payments/factory";
+import { clientIp, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 // POST /api/payments/mock/callback — plan 3 task 6. Validates reference +
 // outcome, updates Payment (PAID/FAILED) + Booking (CONFIRMED on paid) in a
-// transaction via the provider.
+// transaction via the provider. Rate limit: 10/min per IP.
 export async function POST(request: Request) {
+  const rl = rateLimit(`payments:${clientIp(request)}`, {
+    limit: 10,
+    windowMs: 60_000,
+  });
+  if (!rl.success) return rateLimitResponse(rl);
+
   let body: unknown;
   try {
     body = await request.json();

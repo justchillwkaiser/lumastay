@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
 
 import { createBooking } from "@/lib/bookings";
+import { clientIp, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 // POST /api/bookings — plan 3 task 4. The route is a thin shell: all
 // validation, availability re-check, and server-side pricing live in
-// createBooking. 400 on { error }.
+// createBooking. 400 on { error }. Rate limit: 5 bookings/min per IP.
 export async function POST(request: Request) {
+  const rl = rateLimit(`bookings:${clientIp(request)}`, {
+    limit: 5,
+    windowMs: 60_000,
+  });
+  if (!rl.success) return rateLimitResponse(rl);
+
   let body: unknown;
   try {
     body = await request.json();
