@@ -23,7 +23,9 @@ export async function loginAction(
     await claimGuestBookings(res.user.id, email);
     const fallback = role === "ADMIN" || role === "STAFF" ? "/admin" : "/account";
     return { ok: true, redirectTo: next ?? fallback };
-  } catch {
+  } catch (error) {
+    // Log the real error server-side — never swallow silently.
+    console.error("[loginAction] sign-in failed:", error);
     return { ok: false, error: "Invalid email or password." };
   }
 }
