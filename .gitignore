@@ -49,3 +49,6 @@ next-env.d.ts
 # Playwright
 test-results/
 playwright-report/
+
+# screenshots (local only, not for repo)
+/screenshots
